@@ -15,7 +15,13 @@ class IndexController extends Controller
      */
     public function index(UserRequest $request)
     {
-        $country = Country::where( 'name', $request->get('country_name'))->firstOrFail();
+
+        if (is_null($request->country_name)) {
+            $country = Country::where('id', 1)->firstOrFail();
+            return redirect('?country_name=' . $country->name);
+        }
+
+        $country = Country::where('name', $request->get('country_name'))->firstOrFail();
 
         $users = User::with('companies')
             ->whereHas('companies', fn($q) => $q->where('country_id', $country->id))

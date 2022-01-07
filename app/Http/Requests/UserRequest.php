@@ -24,7 +24,7 @@ class UserRequest extends FormRequest
     public function rules()
     {
         return [
-            'country_name' => 'required|max:255'
+            'country_name' => 'max:255'
         ];
     }
 }
